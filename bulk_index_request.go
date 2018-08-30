@@ -40,8 +40,8 @@ func (req *bulkIndexRequest) Source() ([]string, error) {
 	lines := make([]string, 2)
 
 	indexCommand := bulkIndexRequestCommandOp{
-		Index: req.index,
-		Type:  req.typ,
+		//Index: req.index,
+		//Type:  req.typ,
 		Id:    req.id,
 	}
 

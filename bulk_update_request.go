@@ -7,21 +7,19 @@ func BulkUpdateRequest() *bulkUpdateRequest {
 	return req
 }
 
-
 type bulkUpdateRequest struct {
 	bulkRequest
 	index string
-	typ string
-	id string
-	doc interface{}
+	typ   string
+	id    string
+	doc   interface{}
 }
 
 type bulkUpdateRequestCommandOp struct {
 	Index string `json:"_index,omitempty"`
-	Type string `json:"_type,omitempty"`
-	Id string `json:"_id,omitempty"`
+	Type  string `json:"_type,omitempty"`
+	Id    string `json:"_id,omitempty"`
 }
-
 
 func (req *bulkUpdateRequest) Id(id string) *bulkUpdateRequest {
 	req.id = id
@@ -42,9 +40,9 @@ func (req *bulkUpdateRequest) Source() ([]string, error) {
 	lines := make([]string, 2)
 
 	indexCommand := bulkUpdateRequestCommandOp{
-		Index: req.index,
-		Type:  req.typ,
-		Id:    req.id,
+		//Index: req.index,
+		//Type:  req.typ,
+		Id: req.id,
 	}
 
 	command := make(map[string]bulkUpdateRequestCommandOp)
@@ -67,6 +65,8 @@ func (req *bulkUpdateRequest) Source() ([]string, error) {
 }
 
 func (req *bulkUpdateRequest) docAsString() (string, error) {
-	body, err := json.Marshal(req.doc)
+	data := make(map[string]interface{})
+	data["doc"] = req.doc
+	body, err := json.Marshal(data)
 	return string(body), err
 }
