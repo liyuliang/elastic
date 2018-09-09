@@ -2,6 +2,7 @@ package elastic
 
 import (
 	"net/http"
+	"io"
 )
 
 func Client(host string) *client {
@@ -28,10 +29,10 @@ func (c *client) Url(uri string) string {
 	return c.host + uri
 }
 
-func (c *client) Put(uri string, data map[string]string) *esResponse {
+func (c *client) Put(uri string, body io.Reader) *esResponse {
 
 	httpClient := &http.Client{}
-	request, _ := http.NewRequest("PUT", c.Url(uri), request(data))
+	request, _ := http.NewRequest("PUT", c.Url(uri), body)
 	request.Header.Add("Accept", "application/json")
 	request.Header.Set("Content-Type", "application/json")
 	httpResp, err := httpClient.Do(request)
@@ -43,10 +44,10 @@ func (c *client) Put(uri string, data map[string]string) *esResponse {
 /**
  * Not specify the id
  */
-func (c *client) Post(uri string, data map[string]string) *esResponse {
+func (c *client) Post(uri string, body io.Reader) *esResponse {
 
 	httpClient := &http.Client{}
-	request, _ := http.NewRequest("POST", c.Url(uri), request(data))
+	request, _ := http.NewRequest("POST", c.Url(uri), body)
 	request.Header.Set("Content-Type", "application/json")
 	httpResp, err := httpClient.Do(request)
 

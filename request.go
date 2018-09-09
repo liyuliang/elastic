@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 )
 
-func request(data map[string]string) *strings.Reader {
+func MapToReader(data map[string]string) *strings.Reader {
 	body := ""
 	if len(data) > 0 {
 		byteData, _ := json.Marshal(data)
