@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strings"
 	"io/ioutil"
+	"errors"
 )
 
 type esResponse struct {
@@ -27,6 +28,10 @@ func (r *esResponse) Headers() (headers string) {
 func response(httpResp *http.Response, err error) *esResponse {
 
 	resp := new(esResponse)
+	if httpResp == nil {
+		resp.Err = errors.New("ES Response Error")
+		return resp
+	}
 	resp.Err = err
 	resp.Header = make(map[string]string)
 	for key, value := range httpResp.Header {
